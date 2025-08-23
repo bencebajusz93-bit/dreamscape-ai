@@ -49,25 +49,29 @@ ${dream}
       model: "gemini-1.5-pro-latest",
       contents: oraclePrompt,
     });
-    const textCandidate = textGen.candidates?.[0];
-    const textParts: any[] = (textCandidate?.content?.parts as any[]) || [];
+    // Safely extract text parts without using `any`
+    type TextPart = { text?: string };
+    type Candidate = { content?: { parts?: TextPart[] } };
+    const textCandidate = (textGen as { candidates?: Candidate[] }).candidates?.[0];
+    const textParts: TextPart[] = textCandidate?.content?.parts ?? [];
     const analysisText = textParts
-      .filter((p: any) => typeof p?.text === "string")
-      .map((p: any) => p.text)
+      .map((p) => p.text)
+      .filter((t): t is string => typeof t === "string")
       .join("\n\n");
 
     // 2) Generate image using Imagen 4 via @google/genai
     let imageUrl: string | null = null;
     try {
       const imagePrompt = `Create a single detailed illustration in the style of ${style}. The illustration should visualize this dream: ${dream}. Render with cinematic composition, cohesive palette, evocative atmosphere, and high fidelity.`;
-      const imgResp: any = await ai.models.generateImages({
+      // Narrow the image response shape to the fields we actually use
+      const imgResp = (await ai.models.generateImages({
         model: "imagen-4.0-generate-001",
         prompt: imagePrompt,
         config: {
           numberOfImages: 1,
           aspectRatio: "16:9",
         },
-      });
+      })) as { generatedImages?: Array<{ image?: { imageBytes?: string } }> };
       const first = imgResp?.generatedImages?.[0]?.image?.imageBytes as string | undefined;
       if (first) {
         imageUrl = `data:image/png;base64,${first}`;
