@@ -3,7 +3,16 @@ type StyleSelectorProps = {
   setSelectedStyle: (style: string) => void;
 };
 
-const STYLES = ["Surrealism", "Cosmic Horror", "Ghibli-esque", "Cyberpunk"] as const;
+const STYLES = [
+  "Surrealism",
+  "Ghibli-inspired",
+  "Cyberpunk",
+  "Art Nouveau",
+  "Ukiyo-e",
+  "Film noir",
+  "Vaporwave",
+  "Solarpunk",
+] as const;
 
 export default function StyleSelector({ selectedStyle, setSelectedStyle }: StyleSelectorProps) {
   return (

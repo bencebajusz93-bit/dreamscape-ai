@@ -2,17 +2,38 @@
 
 import StyleSelector from "@/components/StyleSelector";
 import ResultDisplay from "@/components/ResultDisplay";
+import AdvancedControls from "@/components/AdvancedControls";
+import HistoryPanel from "@/components/HistoryPanel";
 import { useDreamStore } from "@/store/useDreamStore";
 import Image from "next/image";
 import logo from "../../dreamscapeailogo.png";
+import { useState } from "react";
 export default function Home() {
+  const [showAdvanced, setShowAdvanced] = useState(false);
   const dreamDescription = useDreamStore((s) => s.dreamDescription);
   const selectedStyle = useDreamStore((s) => s.selectedStyle);
+  const lengthPreference = useDreamStore((s) => s.lengthPreference);
+  const temperature = useDreamStore((s) => s.temperature);
+  const aspectRatio = useDreamStore((s) => s.aspectRatio);
   const isLoading = useDreamStore((s) => s.isLoading);
   const setDreamDescription = useDreamStore((s) => s.setDreamDescription);
   const setSelectedStyle = useDreamStore((s) => s.setSelectedStyle);
   const setIsLoading = useDreamStore((s) => s.setIsLoading);
   const setResult = useDreamStore((s) => s.setResult);
+  const addToHistory = useDreamStore((s) => s.addToHistory);
+  const loadFromHistory = useDreamStore((s) => s.loadFromHistory);
+
+  const EXAMPLES = [
+    "I'm walking through a city where all the buildings are made of glass. A fox keeps appearing in reflections, guiding me to a rooftop garden.",
+    "I’m floating in a library where books hum like beehives. A storm gathers outside but the pages glow with warm light.",
+    "I’m on a train that dives into the ocean. Jellyfish illuminate the cabin while I search for a lost photograph.",
+    "In a moonlit forest, doors hang from tree branches. Each door opens to a childhood memory—one is locked and I can’t find the key.",
+  ];
+
+  const handleSurprise = () => {
+    const i = Math.floor(Math.random() * EXAMPLES.length);
+    setDreamDescription(EXAMPLES[i]);
+  };
 
   const handleVisualize = async () => {
     try {
@@ -20,11 +41,26 @@ export default function Home() {
       const response = await fetch("/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ dream: dreamDescription, style: selectedStyle }),
+        body: JSON.stringify({
+          dream: dreamDescription,
+          style: selectedStyle,
+          lengthPreference,
+          temperature,
+          aspectRatio,
+        }),
         cache: "no-store",
       });
       const data = await response.json();
-      setResult({ imageUrl: data.imageUrl ?? null, analysisText: data.analysisText ?? null });
+      const nextResult = { imageUrl: data.imageUrl ?? null, analysisText: data.analysisText ?? null };
+      setResult(nextResult);
+      addToHistory({
+        dream: dreamDescription,
+        style: selectedStyle,
+        lengthPreference,
+        temperature,
+        aspectRatio,
+        result: nextResult,
+      });
     } catch (error) {
       console.error("Visualization failed", error);
       setResult({ imageUrl: null, analysisText: "Something went wrong. Please try again." });
@@ -53,9 +89,45 @@ export default function Home() {
             />
           </div>
 
+          <div className="mt-4">
+            <div className="flex flex-wrap items-center gap-2">
+              {EXAMPLES.map((ex, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  disabled={isLoading}
+                  onClick={() => setDreamDescription(ex)}
+                  className="rounded-full border border-white/10 bg-white/[0.06] px-3 py-1.5 text-xs text-white/80 transition hover:bg-white/[0.12] disabled:opacity-60"
+                >
+                  Example {idx + 1}
+                </button>
+              ))}
+              <button
+                type="button"
+                disabled={isLoading}
+                onClick={handleSurprise}
+                className="rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 px-3 py-1.5 text-xs font-medium text-white shadow-violet-500/20 transition hover:shadow-[0_0_18px_rgba(139,92,246,0.45)] disabled:opacity-60"
+              >
+                Surprise me ✨
+              </button>
+            </div>
+          </div>
+
           <div className="mt-8">
             <StyleSelector selectedStyle={selectedStyle} setSelectedStyle={setSelectedStyle} />
           </div>
+
+          <div className="mt-6">
+            <button
+              type="button"
+              onClick={() => setShowAdvanced((v) => !v)}
+              className="rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 text-sm text-white/80 transition hover:bg-white/[0.12]"
+            >
+              {showAdvanced ? "Hide advanced" : "Show advanced"}
+            </button>
+          </div>
+
+          {showAdvanced ? <AdvancedControls /> : null}
 
           <div className="mt-10">
             <button
@@ -68,6 +140,14 @@ export default function Home() {
           </div>
 
           <ResultDisplay />
+
+          <HistoryPanel
+            onLoad={(item) => loadFromHistory(item)}
+            onReRender={(item) => {
+              loadFromHistory(item);
+              void handleVisualize();
+            }}
+          />
         </div>
       </div>
     </div>

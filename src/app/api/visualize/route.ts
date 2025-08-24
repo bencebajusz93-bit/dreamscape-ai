@@ -7,11 +7,14 @@ export const revalidate = 0;
 type VisualizeRequestBody = {
   dream?: string;
   style?: string;
+  lengthPreference?: "short" | "medium" | "long";
+  temperature?: number;
+  aspectRatio?: "1:1" | "16:9" | "9:16";
 };
 
 export async function POST(request: Request) {
   try {
-    const { dream, style }: VisualizeRequestBody = await request.json();
+    const { dream, style, lengthPreference, temperature, aspectRatio }: VisualizeRequestBody = await request.json();
 
     if (!dream || !style) {
       return NextResponse.json(
@@ -30,17 +33,16 @@ export async function POST(request: Request) {
 
     const ai = new GoogleGenAI({ apiKey });
 
-    const oraclePrompt = `You are a quirky, modern-day oracle.
-Provide an insightful yet entertaining interpretation of the following dream.
-Match the user's chosen style: ${style}.
+    const len = lengthPreference ?? "medium";
+    const temp = Math.max(0, Math.min(1, temperature ?? 0.7));
+    const ratio = (aspectRatio ?? "16:9") as "1:1" | "16:9" | "9:16";
 
-Guidelines:
-- Be evocative and imaginative, but stay coherent and concise (150-220 words).
-- Use vivid imagery and metaphor, and tie back to common dream symbolism.
-- Offer 2-3 actionable reflections for the dreamer.
+    const targetLength =
+      len === "short" ? "80-120 words" : len === "long" ? "280-400 words" : "150-220 words";
 
-Dream description:
-"""
+    const systemPreamble = `Persona:\nYou are \"Oneiros\", an empathetic, insightful dream interpreter blending historical symbolism with modern psychology. You guide self-discovery; you do not give diagnoses or definitive answers. Maintain a supportive, curious, non-judgmental tone.\n\nCore directive:\nProvide a comprehensive, multi-faceted analysis that deconstructs the dream and synthesizes perspectives. Frame all interpretations as possibilities. If the description is very brief, gently request more details before full analysis.\n\nConstraints & safeguards:\n- This is subjective interpretation, not clinical advice.\n- Avoid medical or psychiatric guidance.\n- If content is severely distressing, gently suggest considering support from a qualified therapist.\n\nOutput requirements (use Markdown headings/structure exactly as below):\n\nDisclaimer: Please remember, dream interpretation is a subjective art, not an exact science. This analysis offers potential perspectives based on common symbols and psychological theories, but you are the foremost expert on your own inner world. This is for informational and self-exploration purposes only and is not a substitute for professional psychological advice.\n\nDream Interpretation for Your Dream\n1. Dream Synopsis\n- Briefly and objectively summarize the main narrative and sequence of events.\n\n2. Key Symbols & Emotional Landscape\n- Bullet the most prominent symbols/characters/actions. For each, include reported emotions.\n  - Symbol: <symbol>\n  - Emotion: <emotion(s)>\n\n3. Multi-Perspective Analysis\nProvide at least three of the following, each with brief reasoning:\nA. Psychological Lens (Jungian/Archetypal)\nB. Cognitive & Problem-Solving Lens\nC. Emotional Regulation Lens\nD. Cross-Cultural & Symbolic Lens\n\n4. Integrative Synthesis\n- Weave the threads into a holistic perspective using tentative language.\n\n5. Questions for Personal Reflection\n- Provide 3–5 open-ended questions tied to the dream's themes.\n\nTone & style:\n- Supportive, respectful, empowering.\n- Use vivid but clear language.\n- Aim for ${targetLength}.\n- You may borrow subtle metaphorical flavor from the selected visual style (${style}), but keep the persona tone primary.`;
+
+    const oraclePrompt = `${systemPreamble}\n\nAcknowledge and Validate:\n- Begin by acknowledging the user's trust in sharing their dream. If emotions are mentioned, validate them.\n\nIf clarification is necessary:\n- If the description is very brief (e.g., under ~25–30 words), ask for: full narrative, emotions during and after, key elements (people/objects/animals/locations/colors/symbols), and any relevant personal context. Otherwise proceed with the structured analysis.\n\nDream description:\n"""
 ${dream}
 """`;
 
@@ -48,6 +50,7 @@ ${dream}
     const textGen = await ai.models.generateContent({
       model: "gemini-1.5-pro-latest",
       contents: oraclePrompt,
+      config: { temperature: temp },
     });
     // Safely extract text parts without using `any`
     type TextPart = { text?: string };
@@ -69,7 +72,7 @@ ${dream}
         prompt: imagePrompt,
         config: {
           numberOfImages: 1,
-          aspectRatio: "16:9",
+          aspectRatio: ratio,
         },
       })) as { generatedImages?: Array<{ image?: { imageBytes?: string } }> };
       const first = imgResp?.generatedImages?.[0]?.image?.imageBytes as string | undefined;
@@ -83,7 +86,8 @@ ${dream}
     if (!imageUrl) {
       const q = encodeURIComponent(`${style} dream surreal fantasy ${dream?.slice(0, 32) ?? ""}`);
       const sig = Math.floor(Math.random() * 1_000_000_000);
-      imageUrl = `https://source.unsplash.com/1600x900/?${q}&sig=${sig}`;
+      const dims = ratio === "1:1" ? "1200x1200" : ratio === "9:16" ? "900x1600" : "1600x900";
+      imageUrl = `https://source.unsplash.com/${dims}/?${q}&sig=${sig}`;
     }
 
     const res = NextResponse.json({ analysisText, imageUrl });
