@@ -3,6 +3,8 @@
 import StyleSelector from "@/components/StyleSelector";
 import ResultDisplay from "@/components/ResultDisplay";
 import { useDreamStore } from "@/store/useDreamStore";
+import Image from "next/image";
+import logo from "../../dreamscapeailogo.png";
 export default function Home() {
   const dreamDescription = useDreamStore((s) => s.dreamDescription);
   const selectedStyle = useDreamStore((s) => s.selectedStyle);
@@ -32,13 +34,13 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0b0f19] to-[#0a0e1a] text-white">
+    <div className="min-h-screen bg-[#060910] text-white">
       <div className="mx-auto flex min-h-screen max-w-3xl items-center justify-center px-6 py-16">
         <div className="w-full">
           <div className="text-center">
-            <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white/90">
-              Dreamscape
-            </h1>
+            <div className="flex items-center justify-center">
+              <Image src={logo} alt="DreamScape" priority className="h-28 sm:h-36 md:h-44 w-auto" />
+            </div>
             <p className="mt-2 text-sm text-white/50">Where your dreams take shape</p>
           </div>
 
