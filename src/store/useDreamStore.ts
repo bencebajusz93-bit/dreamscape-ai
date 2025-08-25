@@ -132,7 +132,7 @@ export type HistoryItem = {
 
 export const useDreamStore = create<DreamStore>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       dreamDescription: "",
       selectedStyle: "Surrealism",
       isLoading: false,
@@ -196,7 +196,7 @@ export const useDreamStore = create<DreamStore>()(
     {
       name: "dreamscape-store",
       partialize: (state) => {
-        const { isLoading, result, ...rest } = state;
+        const { isLoading: _isLoading, result: _result, ...rest } = state;
         // Avoid persisting potentially large data URLs in current result; history is already sanitized above
         return rest;
       },

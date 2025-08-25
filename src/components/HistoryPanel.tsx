@@ -115,7 +115,7 @@ export default function HistoryPanel({ onReRender, onLoad }: HistoryPanelProps) 
           yPosition += 15;
           
           // Dreams for this date
-          items.forEach((item, index) => {
+          items.forEach((item) => {
             // Check page space
             if (yPosition > 240) {
               pdf.addPage();

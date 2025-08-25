@@ -15,7 +15,7 @@ export default function ResultDisplay() {
 
   // Hooks must run on every render; initialize image state unconditionally
   const [imgSrc, setImgSrc] = useState<string | null>(result.imageUrl ?? null);
-  const [imageLoaded, setImageLoaded] = useState(false);
+  const [, setImageLoaded] = useState(false);
   const [showImage, setShowImage] = useState(false);
 
   useEffect(() => {
@@ -168,30 +168,30 @@ export default function ResultDisplay() {
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   components={{
-                    h3: ({ node, ...props }) => (
+                    h3: ({ ...props }) => (
                       <h3 className="mt-8 mb-4 text-2xl font-serif text-amber-100 border-b border-amber-200/20 pb-2 relative group" {...props}>
                         <span className="absolute -left-6 top-1 text-amber-300/40 text-sm font-light">✦</span>
                         {props.children}
                       </h3>
                     ),
-                    h4: ({ node, ...props }) => (
+                    h4: ({ ...props }) => (
                       <h4 className="mt-6 mb-3 text-xl font-serif text-amber-200 relative" {...props}>
                         <span className="absolute -left-4 top-1 text-amber-400/40 text-xs">•</span>
                         {props.children}
                       </h4>
                     ),
-                    p: ({ node, ...props }) => (
+                    p: ({ ...props }) => (
                       <p className="mb-4 leading-8 text-amber-50/90 font-light text-lg tracking-wide indent-4" 
                          style={{ fontFamily: 'Georgia, Times, serif', lineHeight: '1.8' }} 
                          {...props} />
                     ),
-                    ul: ({ node, ...props }) => (
+                    ul: ({ ...props }) => (
                       <ul className="my-6 space-y-3 text-amber-50/85" {...props} />
                     ),
-                    ol: ({ node, ...props }) => (
+                    ol: ({ ...props }) => (
                       <ol className="my-6 space-y-3 text-amber-50/85" {...props} />
                     ),
-                    li: ({ node, ...props }) => (
+                    li: ({ ...props }) => (
                       <li className="relative pl-2 leading-7" {...props}>
                         <span className="absolute -left-4 top-2 text-amber-400/60 text-sm">→</span>
                         {props.children}
@@ -206,12 +206,12 @@ export default function ResultDisplay() {
                         </div>
                       </div>
                     ),
-                    strong: ({ node, ...props }) => (
+                    strong: ({ ...props }) => (
                       <strong className="text-amber-100 font-semibold relative" {...props}>
                         {props.children}
                       </strong>
                     ),
-                    em: ({ node, ...props }) => (
+                    em: ({ ...props }) => (
                       <em className="text-amber-200/95 italic font-light" style={{ fontFamily: 'Georgia, serif' }} {...props} />
                     ),
                   }}

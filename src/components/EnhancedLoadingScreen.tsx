@@ -161,7 +161,14 @@ export default function EnhancedLoadingScreen({ className = "" }: EnhancedLoadin
   useEffect(() => {
     if (soundEnabled && !audioRef.current) {
       // Create a simple ambient tone using Web Audio API
-      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      let AudioContextClass;
+      try {
+        AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      } catch {
+        return;
+      }
+      if (!AudioContextClass) return;
+      const audioContext = new AudioContextClass();
       const oscillator1 = audioContext.createOscillator();
       const oscillator2 = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
@@ -181,19 +188,19 @@ export default function EnhancedLoadingScreen({ className = "" }: EnhancedLoadin
       oscillator2.start();
       
       // Store cleanup function
-      (audioRef.current as any) = () => {
+      (audioRef.current as unknown as () => void) = () => {
         oscillator1.stop();
         oscillator2.stop();
         audioContext.close();
       };
     } else if (!soundEnabled && audioRef.current) {
-      (audioRef.current as any)();
+      (audioRef.current as unknown as () => void)();
       audioRef.current = null;
     }
 
     return () => {
       if (audioRef.current) {
-        (audioRef.current as any)();
+        (audioRef.current as unknown as () => void)();
       }
     };
   }, [soundEnabled]);
@@ -310,7 +317,7 @@ export default function EnhancedLoadingScreen({ className = "" }: EnhancedLoadin
                 color: 'transparent',
               }}
             >
-              "{content.text}"
+&ldquo;{content.text}&rdquo;
             </blockquote>
             
             <cite className="block mt-2 text-xs text-white/60 not-italic">
