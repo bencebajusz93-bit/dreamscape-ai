@@ -196,8 +196,9 @@ export const useDreamStore = create<DreamStore>()(
     {
       name: "dreamscape-store",
       partialize: (state) => {
-        const { isLoading: _isLoading, result: _result, ...rest } = state;
         // Avoid persisting potentially large data URLs in current result; history is already sanitized above
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { isLoading, result, ...rest } = state;
         return rest;
       },
     }

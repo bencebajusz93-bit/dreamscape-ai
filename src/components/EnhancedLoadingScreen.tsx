@@ -163,7 +163,7 @@ export default function EnhancedLoadingScreen({ className = "" }: EnhancedLoadin
       // Create a simple ambient tone using Web Audio API
       let AudioContextClass;
       try {
-        AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+        AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
       } catch {
         return;
       }

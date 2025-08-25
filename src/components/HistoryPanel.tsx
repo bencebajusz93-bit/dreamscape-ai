@@ -335,7 +335,7 @@ export default function HistoryPanel({ onReRender, onLoad }: HistoryPanelProps) 
 
               {/* Dreams for this date */}
               <div className="ml-16 space-y-4">
-                {items.map((item, index) => (
+                {items.map((item) => (
                   <div 
                     key={item.id} 
                     className={`relative rounded-2xl bg-gradient-to-br ${getMoodColors(item.mood)} border backdrop-blur-sm p-6 shadow-xl transition-all hover:shadow-2xl hover:scale-[1.02]`}
