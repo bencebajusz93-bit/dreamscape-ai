@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { useDreamStore } from "@/store/useDreamStore";
 
 export default function ResultDisplay() {
@@ -51,7 +53,7 @@ export default function ResultDisplay() {
                 await navigator.clipboard.writeText(result.analysisText ?? "");
               } catch {}
             }}
-            className="rounded-full border border-white/10 bg-white/[0.06] px-3 py-1.5 text-xs text-white/80 transition hover:bg-white/[0.12]"
+            className="rounded-full border border-white/10 bg-white/[0.06] px-3.5 py-2 text-xs sm:text-sm text-white/80 transition hover:bg-white/[0.12]"
           >
             Copy analysis
           </button>
@@ -84,7 +86,7 @@ export default function ResultDisplay() {
                 a.remove();
               }
             }}
-            className="rounded-full border border-white/10 bg-white/[0.06] px-3 py-1.5 text-xs text-white/80 transition hover:bg-white/[0.12]"
+            className="rounded-full border border-white/10 bg-white/[0.06] px-3.5 py-2 text-xs sm:text-sm text-white/80 transition hover:bg-white/[0.12]"
           >
             Download image
           </button>
@@ -102,7 +104,7 @@ export default function ResultDisplay() {
               await navigator.clipboard.writeText(shareUrl);
             } catch {}
           }}
-          className="rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 px-3 py-1.5 text-xs font-medium text-white"
+          className="rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 px-3.5 py-2 text-xs sm:text-sm font-medium text-white"
         >
           Share link
         </button>
@@ -115,12 +117,43 @@ export default function ResultDisplay() {
             src={imgSrc}
             alt="Dream visualization"
             onError={handleImgError}
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover touch-pan-y select-none"
           />
         </div>
       ) : null}
       {result.analysisText ? (
-        <p className="mt-4 leading-relaxed text-white/80">{result.analysisText}</p>
+        <div className="prose prose-invert prose-sm sm:prose-base max-w-none mt-4">
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            components={{
+              h3: ({ node, ...props }) => (
+                <h3 className="mt-6 text-xl font-semibold text-white" {...props} />
+              ),
+              h4: ({ node, ...props }) => (
+                <h4 className="mt-4 text-lg font-semibold text-white" {...props} />
+              ),
+              p: ({ node, ...props }) => (
+                <p className="leading-relaxed text-white/80" {...props} />
+              ),
+              ul: ({ node, ...props }) => (
+                <ul className="list-disc pl-5 space-y-1" {...props} />
+              ),
+              ol: ({ node, ...props }) => (
+                <ol className="list-decimal pl-5 space-y-1" {...props} />
+              ),
+              li: ({ node, ...props }) => (
+                <li className="marker:text-white/60" {...props} />
+              ),
+              hr: () => <hr className="my-6 border-white/10" />,
+              strong: ({ node, ...props }) => (
+                <strong className="text-white" {...props} />
+              ),
+              em: ({ node, ...props }) => <em className="text-white/90" {...props} />,
+            }}
+          >
+            {result.analysisText}
+          </ReactMarkdown>
+        </div>
       ) : null}
     </div>
   );
