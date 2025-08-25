@@ -4,9 +4,12 @@ import StyleSelector from "@/components/StyleSelector";
 import ResultDisplay from "@/components/ResultDisplay";
 import AdvancedControls from "@/components/AdvancedControls";
 import HistoryPanel from "@/components/HistoryPanel";
+import DreamyBackground from "@/components/DreamyBackground";
+import AnimatedLogo from "@/components/AnimatedLogo";
+import DynamicTagline from "@/components/DynamicTagline";
+import EnhancedDreamInput from "@/components/EnhancedDreamInput";
 import { useDreamStore } from "@/store/useDreamStore";
-import Image from "next/image";
-import logo from "../../dreamscapeailogo.png";
+import logo from "../../dreamscapeailogo3removebg.png";
 import { useState } from "react";
 export default function Home() {
   const [showAdvanced, setShowAdvanced] = useState(false);
@@ -71,22 +74,28 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#060910] text-white">
-      <div className="mx-auto flex min-h-screen max-w-3xl items-center justify-center px-6 py-16">
+    <div className="min-h-screen text-white relative">
+      <DreamyBackground />
+      <div className="mx-auto flex min-h-screen max-w-3xl items-center justify-center px-6 py-16 relative z-10">
         <div className="w-full">
           <div className="text-center">
             <div className="flex items-center justify-center">
-              <Image src={logo} alt="DreamScape" priority className="h-28 sm:h-36 md:h-44 w-auto" />
+              <AnimatedLogo 
+                src={logo}
+                alt="DreamScape AI"
+                priority
+                className="h-28 sm:h-36 md:h-44 w-auto"
+              />
             </div>
-            <p className="mt-2 text-sm text-white/50">Where your dreams take shape</p>
+            <div className="mt-4">
+              <DynamicTagline className="text-white/80" />
+            </div>
           </div>
 
           <div className="mt-8">
-            <textarea
+            <EnhancedDreamInput
               value={dreamDescription}
-              onChange={(e) => setDreamDescription(e.target.value)}
-              placeholder="Describe your dream in as much detail as you can..."
-              className="w-full min-h-[220px] rounded-2xl border border-white/10 bg-white/[0.03] p-5 text-white/90 placeholder-white/40 shadow-inner shadow-black/20 backdrop-blur-sm outline-none focus:border-purple-400/50 focus:ring-2 focus:ring-purple-400/30"
+              onChange={setDreamDescription}
             />
           </div>
 
