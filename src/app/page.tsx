@@ -22,6 +22,7 @@ export default function Home() {
   const setResult = useDreamStore((s) => s.setResult);
   const addToHistory = useDreamStore((s) => s.addToHistory);
   const loadFromHistory = useDreamStore((s) => s.loadFromHistory);
+  const clearCurrent = useDreamStore((s) => s.clearCurrent);
 
   const EXAMPLES = [
     "I'm walking through a city where all the buildings are made of glass. A fox keeps appearing in reflections, guiding me to a rooftop garden.",
@@ -129,13 +130,21 @@ export default function Home() {
 
           {showAdvanced ? <AdvancedControls /> : null}
 
-          <div className="mt-10">
+          <div className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2">
             <button
               onClick={handleVisualize}
               disabled={isLoading}
               className="group relative inline-flex w-full items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-r from-violet-500 to-fuchsia-500 px-6 py-4 text-lg font-semibold text-white shadow-lg shadow-violet-500/20 outline-none transition will-change-transform hover:-translate-y-[1px] hover:shadow-[0_0_32px_rgba(139,92,246,0.45)] focus:ring-2 focus:ring-violet-400/50 disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <span className="relative">{isLoading ? "Visualizing..." : "Visualize Dream ✨"}</span>
+            </button>
+            <button
+              type="button"
+              onClick={clearCurrent}
+              disabled={isLoading}
+              className="inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] px-6 py-4 text-lg font-semibold text-white/80 transition hover:bg-white/[0.08] disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              Clear
             </button>
           </div>
 

@@ -21,7 +21,7 @@ export default function HistoryPanel({ onReRender, onLoad }: HistoryPanelProps) 
         <button
           type="button"
           onClick={clearHistory}
-          className="rounded-full border border-white/10 bg-white/[0.06] px-3 py-1.5 text-xs text-white/70 transition hover:bg-white/[0.12]"
+          className="rounded-full border border-white/10 bg-white/[0.06] px-3.5 py-2 text-xs sm:text-sm text-white/70 transition hover:bg-white/[0.12]"
         >
           Clear all
         </button>
@@ -35,7 +35,7 @@ export default function HistoryPanel({ onReRender, onLoad }: HistoryPanelProps) 
               <img
                 src={item.result.imageUrl ?? `https://source.unsplash.com/320x180/?dream&sig=${item.id}`}
                 alt="Thumb"
-                className="h-full w-full object-cover"
+                className="h-full w-full object-cover touch-pan-y select-none"
               />
             </div>
             <div className="min-w-0 flex-1">
@@ -43,26 +43,26 @@ export default function HistoryPanel({ onReRender, onLoad }: HistoryPanelProps) 
                 <span className="truncate text-xs text-white/60">{item.style} • {item.aspectRatio} • {item.lengthPreference}</span>
                 <span className="ml-2 shrink-0 text-[10px] text-white/40">{new Date(item.createdAt).toLocaleTimeString()}</span>
               </div>
-              <p className="mt-1 line-clamp-2 text-sm text-white/80">{item.dream}</p>
-              <div className="mt-2 flex gap-2">
+              <p className="mt-1 line-clamp-3 text-sm text-white/80">{item.dream}</p>
+              <div className="mt-2 flex flex-wrap gap-2">
                 <button
                   type="button"
                   onClick={() => onLoad(item)}
-                  className="rounded-full border border-white/10 bg-white/[0.06] px-2.5 py-1 text-xs text-white/80 transition hover:bg-white/[0.12]"
+                  className="rounded-full border border-white/10 bg-white/[0.06] px-3.5 py-2 text-xs sm:text-sm text-white/80 transition hover:bg-white/[0.12]"
                 >
                   Load
                 </button>
                 <button
                   type="button"
                   onClick={() => onReRender(item)}
-                  className="rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 px-2.5 py-1 text-xs font-medium text-white"
+                  className="rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 px-3.5 py-2 text-xs sm:text-sm font-medium text-white"
                 >
                   Re-render
                 </button>
                 <button
                   type="button"
                   onClick={() => removeHistoryItem(item.id)}
-                  className="rounded-full border border-white/10 bg-white/[0.06] px-2.5 py-1 text-xs text-white/70 transition hover:bg-white/[0.12]"
+                  className="rounded-full border border-white/10 bg-white/[0.06] px-3.5 py-2 text-xs sm:text-sm text-white/70 transition hover:bg-white/[0.12]"
                 >
                   Delete
                 </button>

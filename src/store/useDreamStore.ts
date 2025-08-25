@@ -29,6 +29,7 @@ type DreamActions = {
   loadFromHistory: (item: HistoryItem) => void;
   removeHistoryItem: (id: string) => void;
   clearHistory: () => void;
+  clearCurrent: () => void;
 };
 
 export type DreamStore = DreamState & DreamActions;
@@ -63,6 +64,7 @@ export const useDreamStore = create<DreamStore>()(
       setLengthPreference: (length) => set({ lengthPreference: length }),
       setTemperature: (temp) => set({ temperature: Math.max(0, Math.min(1, temp)) }),
       setAspectRatio: (ratio) => set({ aspectRatio: ratio }),
+      clearCurrent: () => set({ dreamDescription: "", result: { imageUrl: null, analysisText: null } }),
 
       addToHistory: (entry) =>
         set((state) => {

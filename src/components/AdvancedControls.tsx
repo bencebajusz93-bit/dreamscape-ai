@@ -16,14 +16,14 @@ export default function AdvancedControls() {
       <div className="mt-4 grid gap-4 sm:grid-cols-3">
         <div>
           <label className="text-xs text-white/60">Length</label>
-          <div className="mt-2 flex gap-2">
+          <div className="mt-2 flex flex-wrap gap-2">
             {(["short", "medium", "long"] as const).map((len) => (
               <button
                 key={len}
                 type="button"
                 onClick={() => setLengthPreference(len)}
                 className={
-                  `rounded-full px-3 py-1.5 text-sm transition ` +
+                  `rounded-full px-3.5 py-2 text-sm transition ` +
                   (lengthPreference === len
                     ? "border border-violet-400/70 bg-white/[0.14] text-white"
                     : "border border-white/10 bg-white/[0.06] text-white/80 hover:bg-white/[0.12]")
@@ -45,21 +45,21 @@ export default function AdvancedControls() {
             step={0.01}
             value={temperature}
             onChange={(e) => setTemperature(parseFloat(e.target.value))}
-            className="mt-2 w-full"
+            className="mt-3 w-full h-3 rounded-full bg-white/10 accent-violet-400"
             aria-label="Temperature"
           />
         </div>
 
         <div>
           <label className="text-xs text-white/60">Aspect Ratio</label>
-          <div className="mt-2 flex gap-2">
+          <div className="mt-2 flex flex-wrap gap-2">
             {(["1:1", "16:9", "9:16"] as const).map((ratio) => (
               <button
                 key={ratio}
                 type="button"
                 onClick={() => setAspectRatio(ratio)}
                 className={
-                  `rounded-full px-3 py-1.5 text-sm transition ` +
+                  `rounded-full px-3.5 py-2 text-sm transition ` +
                   (aspectRatio === ratio
                     ? "border border-violet-400/70 bg-white/[0.14] text-white"
                     : "border border-white/10 bg-white/[0.06] text-white/80 hover:bg-white/[0.12]")
