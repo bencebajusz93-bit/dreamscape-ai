@@ -24,3 +24,480 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Enhanced Micro-Interaction Animations */
+
+/* Slide In Up Animation */
+@keyframes slideInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Shimmer Effect for Skeletons */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Skeleton Float Animation */
+@keyframes skeletonFloat {
+  0%, 100% { 
+    transform: translate(-50%, -50%) rotate(0deg) scale(1); 
+    opacity: 0.3;
+  }
+  25% { 
+    transform: translate(-50%, -50%) rotate(90deg) scale(1.1); 
+    opacity: 0.6;
+  }
+  50% { 
+    transform: translate(-50%, -50%) rotate(180deg) scale(0.9); 
+    opacity: 0.8;
+  }
+  75% { 
+    transform: translate(-50%, -50%) rotate(270deg) scale(1.1); 
+    opacity: 0.6;
+  }
+}
+
+/* Ripple Effect Animation */
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Pulse Glow Animation */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 15px currentColor;
+  }
+  50% {
+    box-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
+  }
+}
+
+/* Bounce Scale Animation */
+@keyframes bounceScale {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Morphing Button Animation */
+@keyframes morphButton {
+  0% {
+    border-radius: 9999px;
+    transform: scale(1);
+  }
+  50% {
+    border-radius: 1rem;
+    transform: scale(1.02);
+  }
+  100% {
+    border-radius: 9999px;
+    transform: scale(1);
+  }
+}
+
+/* Success Check Draw Animation */
+@keyframes drawCheck {
+  0% {
+    stroke-dasharray: 0 50;
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dasharray: 50 50;
+    stroke-dashoffset: -50;
+  }
+}
+
+/* Floating Elements Animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-10px) rotate(1deg);
+  }
+  50% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  75% {
+    transform: translateY(-5px) rotate(-1deg);
+  }
+}
+
+/* Gradient Shift Animation */
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Utility Classes */
+.animate-slideInUp {
+  animation: slideInUp 0.6s ease-out;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+.animate-skeletonFloat {
+  animation: skeletonFloat 3s ease-in-out infinite;
+}
+
+.animate-ripple {
+  animation: ripple 0.6s linear;
+}
+
+.animate-pulseGlow {
+  animation: pulseGlow 2s infinite;
+}
+
+.animate-bounceScale {
+  animation: bounceScale 0.3s ease-out;
+}
+
+.animate-morphButton {
+  animation: morphButton 0.4s ease-out;
+}
+
+.animate-drawCheck {
+  animation: drawCheck 1s ease-out forwards;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-gradientShift {
+  animation: gradientShift 3s ease infinite;
+  background-size: 200% 200%;
+}
+
+/* Enhanced Transitions */
+.transition-micro {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transition-smooth {
+  transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.transition-bounce {
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Interactive States */
+.hover-lift:hover {
+  transform: translateY(-2px) scale(1.02);
+  filter: brightness(1.1);
+}
+
+.hover-glow:hover {
+  filter: drop-shadow(0 0 8px currentColor);
+}
+
+.hover-morph:hover {
+  border-radius: 1rem;
+}
+
+.active-press:active {
+  transform: scale(0.98);
+}
+
+/* Focus Styles */
+.focus-ring:focus-visible {
+  outline: 2px solid rgba(139, 92, 246, 0.5);
+  outline-offset: 2px;
+  border-radius: 0.5rem;
+}
+
+/* Loading States */
+.loading-pulse {
+  animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.loading-bounce {
+  animation: bounce 1s infinite;
+}
+
+/* Success States */
+.success-bounce {
+  animation: bounceScale 0.6s ease-out;
+}
+
+/* Celebration Effects */
+.celebration-burst::after {
+  content: '';
+  position: absolute;
+  inset: -10px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, transparent 70%);
+  border-radius: inherit;
+  opacity: 0;
+  animation: ripple 1s ease-out;
+}
+
+/* Glass Morphism Effects */
+.glass {
+  backdrop-filter: blur(16px) saturate(180%);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-hover:hover {
+  backdrop-filter: blur(20px) saturate(200%);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+/* Performance Optimized Animations */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+.will-change-scroll {
+  will-change: scroll-position;
+}
+
+/* GPU-Accelerated Animations */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.smooth-scroll {
+  scroll-behavior: smooth;
+}
+
+/* Optimized Hover States */
+.optimized-hover {
+  transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+}
+
+.optimized-hover:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Remove parallax for reduced motion */
+  .parallax {
+    transform: none !important;
+  }
+
+  /* Simplified hover states for reduced motion */
+  .optimized-hover:hover {
+    transform: none;
+    opacity: 0.8;
+  }
+
+  /* Remove floating animations */
+  .animate-float,
+  .animate-skeletonFloat,
+  .animate-gradientShift {
+    animation: none !important;
+  }
+
+  /* Simplified focus states */
+  .focus-ring:focus-visible {
+    outline: 3px solid rgba(139, 92, 246, 0.8) !important;
+    outline-offset: 2px !important;
+    box-shadow: none !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .glass {
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .text-white\/80 {
+    color: rgba(255, 255, 255, 0.95);
+  }
+
+  .border-white\/10 {
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+}
+
+/* Performance Monitoring */
+.performance-indicator {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 10px;
+  z-index: 9999;
+  pointer-events: auto;
+}
+
+/* Loading States with Better Performance */
+.optimized-pulse {
+  animation: optimizedPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes optimizedPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Optimized Shimmer Effect */
+.optimized-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.optimized-shimmer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  animation: optimizedShimmer 2s infinite;
+}
+
+@keyframes optimizedShimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Intersection Observer fade-in */
+.fade-in-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Error State Animations */
+.error-shake {
+  animation: errorShake 0.5s ease-in-out;
+}
+
+@keyframes errorShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.error-bounce {
+  animation: errorBounce 0.6s ease-out;
+}
+
+@keyframes errorBounce {
+  0% { transform: scale(0.9); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+/* Success State Animations */
+.success-glow {
+  animation: successGlow 2s ease-out;
+}
+
+@keyframes successGlow {
+  0% {
+    box-shadow: 0 0 5px rgba(34, 197, 94, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.6), 0 0 30px rgba(34, 197, 94, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(34, 197, 94, 0.3);
+  }
+}
+
+/* Progressive Enhancement Classes */
+.js .no-js-fallback {
+  display: none;
+}
+
+.no-js .js-only {
+  display: none;
+}
+
+/* Critical Path CSS Optimization */
+.above-fold {
+  contain: layout style paint;
+}
+
+.below-fold {
+  content-visibility: auto;
+  contain-intrinsic-size: 500px;
+}
+
+/* Image Loading Optimization */
+.loading-image {
+  filter: blur(5px);
+  transition: filter 0.3s ease;
+}
+
+.loading-image.loaded {
+  filter: none;
+}

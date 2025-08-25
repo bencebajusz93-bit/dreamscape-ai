@@ -47,7 +47,7 @@ export default function ResultDisplay() {
   }
 
   return (
-    <div className="mt-8 rounded-2xl border border-white/10 bg-white/[0.03] p-4 sm:p-6">
+    <div className="mt-8 rounded-2xl border border-white/10 bg-white/[0.03] p-4 sm:p-6 animate-slideInUp backdrop-blur-sm">
       <div className="flex flex-wrap items-center gap-2">
         {result.analysisText ? (
           <button
@@ -57,9 +57,10 @@ export default function ResultDisplay() {
                 await navigator.clipboard.writeText(result.analysisText ?? "");
               } catch {}
             }}
-            className="rounded-full border border-white/10 bg-white/[0.06] px-3.5 py-2 text-xs sm:text-sm text-white/80 transition hover:bg-white/[0.12]"
+            className="group relative overflow-hidden rounded-full border border-white/10 bg-white/[0.06] px-3.5 py-2 text-xs sm:text-sm text-white/80 transition-all duration-300 hover:bg-white/[0.12] hover:border-green-400/30 hover:scale-105 hover:shadow-[0_0_12px_rgba(34,197,94,0.25)] hover:text-white"
           >
-            Copy analysis
+            <span className="relative z-10">📋 Copy analysis</span>
+            <div className="absolute inset-0 bg-gradient-to-r from-green-500/0 via-green-500/20 to-green-500/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
           </button>
         ) : null}
         {result.imageUrl ? (
@@ -90,9 +91,10 @@ export default function ResultDisplay() {
                 a.remove();
               }
             }}
-            className="rounded-full border border-white/10 bg-white/[0.06] px-3.5 py-2 text-xs sm:text-sm text-white/80 transition hover:bg-white/[0.12]"
+            className="group relative overflow-hidden rounded-full border border-white/10 bg-white/[0.06] px-3.5 py-2 text-xs sm:text-sm text-white/80 transition-all duration-300 hover:bg-white/[0.12] hover:border-blue-400/30 hover:scale-105 hover:shadow-[0_0_12px_rgba(59,130,246,0.25)] hover:text-white"
           >
-            Download image
+            <span className="relative z-10">💾 Download</span>
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/20 to-blue-500/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" /> image
           </button>
         ) : null}
         <button
