@@ -187,14 +187,12 @@ export default function Home() {
           <div className="absolute top-6 right-6 z-20">
             <Link
               href="/gallery"
-              className={`group relative overflow-hidden rounded-xl bg-gradient-to-r from-violet-500/20 to-purple-500/20 backdrop-blur-sm border border-white/20 px-4 py-2.5 text-sm font-medium text-white shadow-lg transition-all duration-300 hover:from-violet-500/30 hover:to-purple-500/30 hover:border-violet-400/50 hover:shadow-xl ${
+              className={`group relative overflow-hidden rounded-xl bg-gradient-to-r from-violet-500/20 to-purple-500/20 backdrop-blur-sm border border-white/20 w-12 h-12 flex items-center justify-center text-white shadow-lg transition-all duration-300 hover:from-violet-500/30 hover:to-purple-500/30 hover:border-violet-400/50 hover:shadow-xl ${
                 reducedMotion ? '' : 'hover:scale-105 hover:shadow-[0_0_20px_rgba(139,92,246,0.4)]'
               }`}
+              title="Gallery"
             >
-              <span className="relative z-10 flex items-center gap-2">
-                <span className="text-base">🌍</span>
-                <span>Gallery</span>
-              </span>
+              <span className="relative z-10 text-xl">🌍</span>
               {!reducedMotion && (
                 <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
               )}
